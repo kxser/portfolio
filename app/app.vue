@@ -35,7 +35,7 @@
         </motion.h1>
         <h2 class="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl"></h2>
         <p class="mt-4 max-w-xs text-base leading-relaxed text-slate-300">
-          Always Outnumbered, Never Outgunned
+          Always outnumbered, never outgunned
 
         </p>
 
@@ -116,10 +116,10 @@
         <section id="about" class="scroll-mt-24 text-left">
           <h2 class="text-sm font-semibold uppercase text-white/80">ABOUT</h2>
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
-            I'm an <strong class="font-semibold text-white">aspiring student</strong> with the ideal of becoming a <strong class="font-semibold text-white">software engineer</strong>, keen to build <strong class="font-semibold text-white">creative solutions</strong> regardless of unique constraints. The favorite part of my work lies on efficiency and user interaction, attempting to create performant yet elegant systems for evolving problems.
+            I'm an <strong class="font-semibold text-white">aspiring student</strong> with the goal of becoming a <strong class="font-semibold text-white">software engineer</strong>, keen to build <strong class="font-semibold text-white">creative solutions</strong> regardless of unique constraints. My favorite part of the work lies in efficiency and user interaction; I aim to create performant yet elegant systems for evolving problems.
           </p>
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
-            Currently I'm a student at <strong class="font-semibold text-white">METU D.F. Private School Ankara</strong>. A majority of my studies and focus is on the betterment of my skills in the <strong class="font-semibold text-white">computer science and software engineering</strong>.
+            Currently, I'm a student at <strong class="font-semibold text-white">METU D.F. Private School Ankara</strong>. Most of my studies focus on improving my skills in <strong class="font-semibold text-white">computer science and software engineering</strong>.
           </p>
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
             My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture.
@@ -177,6 +177,10 @@ import { motion } from 'motion-v'
 
 const toast = useToast()
 
+useHead({
+  title: 'Derin Alan Ritter'
+})
+
 const rightSide = ref<HTMLElement | null>(null)
 const cursorLight = ref<HTMLElement | null>(null)
 const mouseX = ref(0)
@@ -233,35 +237,35 @@ const experience = [
     title: 'Director General & Head of I.T.',
     period: '2022 — Present',
     summary:
-      'Resposible for the management, development and deployment of the I.T. infrastructure of a 300-person M.U.N. conference, while also continniung my role in general management.'
+      'Responsible for managing, developing, and deploying the I.T. infrastructure for a 300-person M.U.N. conference while continuing my role in general management.'
   },
   {
     company: 'METU College Entrepreneurship Club',
     title: 'Lead Software Engineer',
     period: '2022 — 2022',
     summary:
-      "Developed bespoke website for the club's entry into the national GencBizz competition."
+      "Developed a bespoke website for the club's entry into the national GencBizz competition."
   },
   {
     company: 'RK Media',
     title: 'Co-founder',
     period: '2023-2024',
     summary:
-      'Built responsive marketing sites, advertising prototypes and web applications for varius creators and communities.'
+      'Built responsive marketing sites, advertising prototypes, and web applications for various creators and communities.'
   },
     {
     company: 'MEGART Technology',
     title: 'Internship',
     period: '2023 — 2023',
     summary:
-      "Collaborated and gained insightful experience while spending time at a leading electronics design company."
+      "Collaborated and gained insightful experience at a leading electronics design company."
   },
       {
     company: 'Cartesian Robotics #8561',
     title: 'Minor Technical Contributor',
     period: '2022 — 2022',
     summary:
-      "Developed the fastest Apriltag recognition algorithm for use in the regional FRC Robotics Competition."
+      "Developed the fastest AprilTag recognition algorithm for use in the regional FRC Robotics Competition."
   },
 ]
 
@@ -270,7 +274,7 @@ const projects = [
     name: 'MCMUN Website',
     year: '2025',
     description:
-      'Sustainable, low-cost website for the Metu College Model United Nations conference, built with Nuxt 4.',
+      'Sustainable, low-cost website for the METU College Model United Nations conference, built with Nuxt 4.',
     href: 'https://metucollegemun.org'
   },
   {
@@ -282,10 +286,10 @@ const projects = [
   },
   {
     name: 'NuxtAuth',
-    year: '2022',
+    year: '2025',
     description:
-      'A fully self-contained authentication framework to be used as a start for Nuxt4 applications. Requires no backend services and thus is perfect for small applications. ',
-    href: 'https://github.com/bchiang7'
+      'A fully self-contained authentication framework to be used as a starting point for Nuxt 4 applications. It requires no backend services and is perfect for small applications.',
+    href: 'https://github.com/kxser/nuxtauth'
   },
 ]
 
