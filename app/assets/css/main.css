@@ -1,0 +1,21 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+html,
+body,
+#__nuxt {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.signature-mask {
+	display: block;
+	width: 100%;
+	aspect-ratio: 5 / 2;
+	background-color: #9eadc2;
+	mask: url('/signature_derin.png') center/contain no-repeat;
+	-webkit-mask: url('/signature_derin.png') center/contain no-repeat;
+}
+
