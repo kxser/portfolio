@@ -215,7 +215,7 @@ let sectionElements: Record<SectionId, HTMLElement | null> = {
 }
 
 const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/bchiang7', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
+  { label: 'GitHub', href: 'https://github.com/kxser', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
   { label: 'Email', href: 'mailto:derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
   { label: 'Instagram', href: 'https://www.instagram.com/derinnritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
