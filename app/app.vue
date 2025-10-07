@@ -123,7 +123,7 @@
         <section id="about" class="scroll-mt-24 text-left">
           <h2 class="text-sm font-semibold uppercase text-white/80">ABOUT</h2>
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
-            I'm an <strong class="font-semibold text-white">aspiring student</strong> with the goal of becoming a <strong class="font-semibold text-white">software engineer</strong>, keen to build <strong class="font-semibold text-white">creative solutions</strong> regardless of unique constraints. My favorite part of the work lies in efficiency and user interaction; I aim to create performant yet elegant systems for evolving problems.
+            I'm an <strong class="font-semibold text-white">aspiring student</strong> with the goal of standing out in <strong class="font-semibold text-white">computer science</strong>, keen to build <strong class="font-semibold text-white">creative solutions</strong> regardless of unique constraints. My favorite part of the work lies in efficiency and user interaction; I aim to create performant yet elegant systems for evolving problems.
           </p>
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
             Currently, I'm a student at <strong class="font-semibold text-white">METU D.F. Private School Ankara</strong>. Most of my studies focus on improving my skills in <strong class="font-semibold text-white">computer science and software engineering</strong>.
