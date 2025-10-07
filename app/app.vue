@@ -22,13 +22,14 @@
     >
       <div>
         <motion.h1
-          :whileHover="{ scale: 1.05 }",
-          :animate="{ opacity: 1, y: 0, scale: 1 }"
-          :transition="{
-            duration: 0.6,
-            ease: 'easeOut',
-            scale: { type: 'spring', visualDuration: 0.5, bounce: 0.45 }
-          }"
+            :whileHover="{ scale: 1.02 }"
+            :initial="{ opacity: 0, scale: 0.95 }"
+            :animate="{ opacity: 1, scale: 1 }"
+            :transition="{
+            duration: 0.8,
+            ease: [0.22, 1, 0.36, 1],
+            scale: { type: 'spring', stiffness: 100, damping: 15, mass: 0.8 }
+            }"
           class="text-4xl font-bold tracking-tight text-slate-100 sm:text-5xl"
         >
           <a href="/" class="cursor-pointer transition-colors duration-200 hover:text-white">Derin Alan Ritter</a>
@@ -94,15 +95,21 @@
       </div>
       <ul class="mt-10 flex items-center gap-5 text-sm text-slate-400" aria-label="Social media">
         <li v-for="link in socialLinks" :key="link.label">
-          <motion.a
-            :whileHover="{ scale: 1.2 }"
-            :whilePress="{ scale: 0.85 }"
-            @click="executeSocialClick(link.href, link.label)"
-            class="flex cursor-pointer items-center justify-center transition-colors duration-200 hover:text-white focus-visible:text-white"
+          <UTooltip
+            arrow
+            :delay-duration="0"
+            :text="link.tooltip ?? link.label"
           >
-            <UIcon :name="link.icon" class="h-5 w-5 sm:h-6 sm:w-6" />
-            <span class="sr-only">{{ link.label }}</span>
-          </motion.a>
+            <motion.a
+              :whileHover="{ scale: 1.2 }"
+              :whilePress="{ scale: 0.85 }"
+              @click="executeSocialClick(link.href, link.label)"
+              class="flex cursor-pointer items-center justify-center transition-colors duration-200 hover:text-white focus-visible:text-white"
+            >
+              <UIcon :name="link.icon" class="h-5 w-5 sm:h-6 sm:w-6" />
+              <span class="sr-only">{{ link.label }}</span>
+            </motion.a>
+          </UTooltip>
         </li>
       </ul>
     </header>
@@ -133,7 +140,7 @@
             <article v-for="role in experience" :key="role.company" class="space-y-2">
               <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <h3 class="text-lg font-semibold text-white">{{ role.company }}</h3>
-                <span class="text-xs uppercase tracking-[0.3em] text-slate-500">{{ role.period }}</span>
+                <span class="text-xs uppercase text-slate-500">{{ role.period }}</span>
               </div>
               <p class="text-base font-medium text-slate-200">{{ role.title }}</p>
               <p class="text-pretty text-base leading-relaxed text-slate-400">{{ role.summary }}</p>
@@ -151,7 +158,7 @@
             >
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-white">{{ project.name }}</h3>
-                <span class="text-xs uppercase tracking-[0.3em] text-white/70">{{ project.year }}</span>
+                <span class="text-xs uppercase text-white/70">{{ project.year }}</span>
               </div>
               <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">{{ project.description }}</p>
               <a
@@ -208,11 +215,12 @@ let sectionElements: Record<SectionId, HTMLElement | null> = {
 }
 
 const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/bchiang7', icon: 'i-simple-icons-github' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin' },
-  { label: 'Email', href: 'mailto:derinaritter@protonmail.ch', icon: 'i-simple-icons-protonmail' },
-  { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc' },
-  { label: 'ETH', href: '0x38d423Ddb091A89934Efa9528D9125DD93aB2d6f', icon: 'i-cryptocurrency-eth' },
+  { label: 'GitHub', href: 'https://github.com/bchiang7', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
+  { label: 'Email', href: 'mailto:derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
+  { label: 'Instagram', href: 'https://www.instagram.com/derinnritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
+  { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc', tooltip: 'BTC Wallet' },
+  { label: 'ETH', href: '0x38d423Ddb091A89934Efa9528D9125DD93aB2d6f', icon: 'i-cryptocurrency-eth', tooltip: 'ETH Wallet' },
 ]
 async function executeSocialClick(href: string, label: string) {
   console.log(href, label)
