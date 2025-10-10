@@ -154,6 +154,7 @@
             <article
               v-for="project in projects"
               :key="project.name"
+              @click="async () => {await navigateTo(project.href, { external: true, open: { target: '_blank', }, })}"
               class="group cursor-pointer rounded-3xl border border-white/10 bg-white/5 p-6 transition-colors duration-300 hover:border-white/60 hover:bg-white/10"
             >
               <div class="flex items-center justify-between">
@@ -162,7 +163,6 @@
               </div>
               <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">{{ project.description }}</p>
               <a
-                :href="project.href"
                 class="mt-4 inline-flex items-center text-sm font-medium text-white transition-colors duration-200 hover:text-slate-200 cursor-pointer"
                 target="_blank"
                 rel="noreferrer noopener"
@@ -217,7 +217,7 @@ let sectionElements: Record<SectionId, HTMLElement | null> = {
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/kxser', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
-  { label: 'Email', href: 'mailto:derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
+  { label: 'Email', href: 'derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
   { label: 'Instagram', href: 'https://www.instagram.com/derinnritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
   { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc', tooltip: 'BTC Wallet' },
   { label: 'ETH', href: '0x38d423Ddb091A89934Efa9528D9125DD93aB2d6f', icon: 'i-cryptocurrency-eth', tooltip: 'ETH Wallet' },
@@ -225,9 +225,16 @@ const socialLinks = [
 async function executeSocialClick(href: string, label: string) {
   console.log(href, label)
   if (href.includes("http")) {
-    window.open(href, '_blank')
+    await navigateTo(href, { external: true, open: { target: '_blank', }, })
   } else if (label === "Email") {
-    window.location.href = href
+    navigator.clipboard.writeText(href)
+    toast.add({
+    title: `Copied ${label} to clipboard.`,
+    color: 'neutral',
+    description: href,
+    icon: 'i-material-symbols-content-copy'
+  })
+    
 } else {
   // Copy crypto address to clipboard
   navigator.clipboard.writeText(href)
@@ -298,6 +305,13 @@ const projects = [
     description:
       'A fully self-contained authentication framework to be used as a starting point for Nuxt 4 applications. It requires no backend services and is perfect for small applications.',
     href: 'https://github.com/kxser/nuxtauth'
+  },
+    {
+    name: 'Arrow Cursor Follow',
+    year: '2025',
+    description:
+      'Lightweight demonstration that renders an arrow array element that smoothly rotates and points toward (or chases) the  mouse / pointer position. Similar to a magnetic filing effect.',
+    href: 'https://github.com/kxser/arrow-cursor-follow'
   },
 ]
 
