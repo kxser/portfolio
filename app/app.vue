@@ -131,6 +131,15 @@
           <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
             My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture.
           </p>
+          <div class="mt-6">
+            <a
+              @click="async () => {await navigateTo('https://docs.google.com/document/d/101nZjssknWJN8Hzj-dGkIo488KDSQYsji54a1PD7qGQ/edit?tab=t.0', { external: true, open: { target: '_blank', }, })}"
+              class="inline-flex items-center text-base font-medium text-white transition-colors duration-200 hover:text-slate-200 cursor-pointer"
+            >
+              View Resume
+              <span class="ml-2 transition-transform duration-200 hover:translate-x-1">→</span>
+            </a>
+          </div>
         </section>
 
 
