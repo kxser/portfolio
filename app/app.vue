@@ -257,6 +257,13 @@ async function executeSocialClick(href: string, label: string) {
 
 const experience = [
   {
+    company: 'The College Chronicle',
+    title: 'Co-Founder & Chief Technical Officer (CTO)',
+    period: 'Present',
+    summary:
+      'Co-Founder, CTO & Editor. Spearheaded breakaway newspaper branch. Built its entire digital infrastructure, website & directed editorial content.'
+  },
+  {
     company: 'Metu College M.U.N.',
     title: 'Director General & Head of I.T.',
     period: '2022 — Present',
@@ -294,6 +301,13 @@ const experience = [
 ]
 
 const projects = [
+  {
+    name: 'The College Chronicle',
+    year: '2025',
+    description:
+      'Digital school journal/newspaper platform. Built complete infrastructure and website for breakaway newspaper branch.',
+    href: 'https://thecollegechronicle.org'
+  },
   {
     name: 'MCMUN Website',
     year: '2025',
