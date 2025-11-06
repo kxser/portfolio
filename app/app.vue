@@ -302,6 +302,13 @@ const experience = [
 
 const projects = [
   {
+    name: 'Qwen3-SexismDetect',
+    year: '2025',
+    description:
+      'Fine-tuned Qwen3-4B LLM model with custom training data to excel both in speed and performance at detecting sexism. Reduced costs and inference time significantly compared to generalized models.',
+    href: 'https://huggingface.co/derinaritter/qwen3-4B-sexismdetect/tree/main'
+  },
+  {
     name: 'The College Chronicle',
     year: '2025',
     description:
