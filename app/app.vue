@@ -1,5 +1,11 @@
 <template>
   <UApp>
+  <!-- Scroll Progress Bar -->
+  <motion.div
+    class="fixed top-0 left-0 right-0 h-1 bg-white/20 origin-left z-50"
+    :style="{ scaleX: scrollProgress }"
+  />
+  
   <div
     class="relative flex min-h-screen w-screen flex-col overflow-hidden bg-zinc-950 text-slate-100 lg:h-screen lg:flex-row"
     @wheel="handleWheel"
@@ -34,22 +40,35 @@
         >
           <a href="/" class="cursor-pointer transition-colors duration-200 hover:text-white">Derin Alan Ritter</a>
         </motion.h1>
-        <h2 class="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl"></h2>
-        <p class="mt-4 max-w-xs text-base leading-relaxed text-slate-300">
+        <motion.h2 
+          class="mt-3 text-lg font-medium tracking-tight text-slate-200 sm:text-xl"
+          :initial="{ opacity: 0, y: 10 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }"
+        ></motion.h2>
+        <motion.p 
+          class="mt-4 max-w-xs text-base leading-relaxed text-slate-300"
+          :initial="{ opacity: 0, y: 10 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }"
+        >
           Always outnumbered, never outgunned
 
-        </p>
-
-        <div
-          class="mt-6 pointer-events-none w-28 max-w-[55%] opacity-75"
-          aria-hidden="true"
-        >
-          <div class="signature-mask" role="presentation"></div>
-        </div>
+        </motion.p>
 
         <nav aria-label="Section links" class="mt-10 lg:hidden">
           <ul class="flex flex-wrap gap-3">
-            <li v-for="item in navItems" :key="item.label">
+            <motion.li 
+              v-for="(item, index) in navItems" 
+              :key="item.label"
+              :initial="{ opacity: 0, y: -10 }"
+              :animate="{ opacity: 1, y: 0 }"
+              :transition="{ 
+                duration: 0.4,
+                delay: index * 0.1,
+                ease: [0.22, 1, 0.36, 1]
+              }"
+            >
               <button
                 type="button"
                 class="rounded-full border border-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white/70 transition-all duration-300 hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
@@ -60,13 +79,23 @@
               >
                 {{ item.label }}
               </button>
-            </li>
+            </motion.li>
           </ul>
         </nav>
 
         <nav aria-label="Section links" class="hidden lg:block">
           <ul class="mt-16 w-max">
-            <li v-for="item in navItems" :key="item.label">
+            <motion.li 
+              v-for="(item, index) in navItems" 
+              :key="item.label"
+              :initial="{ opacity: 0, x: -20 }"
+              :animate="{ opacity: 1, x: 0 }"
+              :transition="{ 
+                duration: 0.5,
+                delay: 0.3 + index * 0.1,
+                ease: [0.22, 1, 0.36, 1]
+              }"
+            >
               <a
                 :href="item.href"
                 class="group flex cursor-pointer items-center py-3"
@@ -88,21 +117,42 @@
                   {{ item.label }}
                 </span>
               </a>
-            </li>
+            </motion.li>
           </ul>
         </nav>
 
       </div>
-      <ul class="mt-10 flex items-center gap-5 text-sm text-slate-400" aria-label="Social media">
-        <li v-for="link in socialLinks" :key="link.label">
+      <motion.ul 
+        class="mt-10 flex items-center gap-5 text-sm text-slate-400" 
+        aria-label="Social media"
+        :initial="{ opacity: 0, y: 20 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ 
+          duration: 0.6,
+          delay: 0.8,
+          ease: [0.22, 1, 0.36, 1]
+        }"
+      >
+        <motion.li 
+          v-for="(link, index) in socialLinks" 
+          :key="link.label"
+          :initial="{ opacity: 0, scale: 0.8 }"
+          :animate="{ opacity: 1, scale: 1 }"
+          :transition="{ 
+            duration: 0.4,
+            delay: 0.9 + index * 0.05,
+            ease: [0.22, 1, 0.36, 1]
+          }"
+        >
           <UTooltip
             arrow
             :delay-duration="0"
             :text="link.tooltip ?? link.label"
           >
             <motion.a
-              :whileHover="{ scale: 1.2 }"
+              :whileHover="{ scale: 1.2, rotate: 5 }"
               :whilePress="{ scale: 0.85 }"
+              :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
               @click="executeSocialClick(link.href, link.label)"
               class="flex cursor-pointer items-center justify-center transition-colors duration-200 hover:text-white focus-visible:text-white"
             >
@@ -110,8 +160,8 @@
               <span class="sr-only">{{ link.label }}</span>
             </motion.a>
           </UTooltip>
-        </li>
-      </ul>
+        </motion.li>
+      </motion.ul>
     </header>
 
     <!-- Content Panel -->
@@ -120,51 +170,131 @@
       class="relative z-10 w-full flex-1 bg-transparent lg:w-[54%] lg:overflow-y-auto"
     >
       <div class="px-6 py-12 sm:px-12 lg:px-16 lg:py-24">
-        <section id="about" class="scroll-mt-24 text-left">
-          <h2 class="text-sm font-semibold uppercase text-white/80">ABOUT</h2>
-          <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
+        <motion.section 
+          id="about" 
+          class="scroll-mt-24 text-left"
+          :initial="!isSafari ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }"
+          :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+          :transition="!isSafari ? { duration: 0.6, ease: [0.22, 1, 0.36, 1] } : { duration: 0 }"
+          :inViewOptions="!isSafari ? { once: true, amount: 0.3 } : { once: true }"
+        >
+          <motion.h2 
+            class="text-sm font-semibold uppercase text-white/80"
+            :initial="!isSafari ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.2 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
+            ABOUT
+          </motion.h2>
+          <motion.p 
+            class="mt-4 text-pretty text-base leading-relaxed text-slate-300"
+            :initial="!isSafari ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.3 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
             I'm an <strong class="font-semibold text-white">aspiring student</strong> with the goal of standing out in <strong class="font-semibold text-white">computer science</strong>, keen to build <strong class="font-semibold text-white">creative solutions</strong> regardless of unique constraints. My favorite part of the work lies in efficiency and user interaction; I aim to create performant yet elegant systems for evolving problems.
-          </p>
-          <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
+          </motion.p>
+          <motion.p 
+            class="mt-4 text-pretty text-base leading-relaxed text-slate-300"
+            :initial="!isSafari ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.4 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
             Currently, I'm a student at <strong class="font-semibold text-white">METU D.F. Private School Ankara</strong>. Most of my studies focus on improving my skills in <strong class="font-semibold text-white">computer science and software engineering</strong>.
-          </p>
-          <p class="mt-4 text-pretty text-base leading-relaxed text-slate-300">
+          </motion.p>
+          <motion.p 
+            class="mt-4 text-pretty text-base leading-relaxed text-slate-300"
+            :initial="!isSafari ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.5 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
             My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture.
-          </p>
-          <div class="mt-6">
-            <a
+          </motion.p>
+          <motion.div 
+            class="mt-6"
+            :initial="!isSafari ? { opacity: 0, y: 20 } : { opacity: 1, y: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.6 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
+            <motion.a
               @click="async () => {await navigateTo('https://docs.google.com/document/d/101nZjssknWJN8Hzj-dGkIo488KDSQYsji54a1PD7qGQ/edit?tab=t.0', { external: true, open: { target: '_blank', }, })}"
-              class="inline-flex items-center text-base font-medium text-white transition-colors duration-200 hover:text-slate-200 cursor-pointer"
+              class="inline-flex items-center text-base font-medium text-white transition-colors duration-200 hover:text-slate-200 cursor-pointer group"
+              :whileHover="{ x: 5 }"
+              :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
             >
               View Resume
-              <span class="ml-2 transition-transform duration-200 hover:translate-x-1">→</span>
-            </a>
-          </div>
-        </section>
+              <span class="ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
+            </motion.a>
+          </motion.div>
+        </motion.section>
 
 
-        <section id="experience" class="mt-20 scroll-mt-24 text-left">
-          <h2 class="text-sm font-semibold uppercase text-white/80">EXPERIENCE</h2>
+        <motion.section 
+          id="experience" 
+          class="mt-20 scroll-mt-24 text-left"
+          :initial="!isSafari ? { opacity: 0, y: 30 } : { opacity: 1, y: 0 }"
+          :whileInView="!isSafari ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }"
+          :transition="!isSafari ? { duration: 0.6, ease: [0.22, 1, 0.36, 1] } : { duration: 0 }"
+          :inViewOptions="!isSafari ? { once: true, amount: 0.2 } : { once: true }"
+        >
+          <motion.h2 
+            class="text-sm font-semibold uppercase text-white/80"
+            :initial="!isSafari ? { opacity: 0, x: -20 } : { opacity: 1, x: 0 }"
+            :whileInView="!isSafari ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }"
+            :transition="!isSafari ? { duration: 0.5, delay: 0.2 } : { duration: 0 }"
+            :inViewOptions="!isSafari ? { once: true } : { once: true }"
+          >
+            EXPERIENCE
+          </motion.h2>
           <div class="mt-8 space-y-12 border-l border-white/10 pl-6">
-            <article v-for="role in experience" :key="role.company" class="space-y-2">
+            <motion.article 
+              v-for="(role, index) in experience" 
+              :key="role.company" 
+              class="space-y-2"
+              :initial="!isSafari ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }"
+              :whileInView="!isSafari ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }"
+              :transition="!isSafari ? { 
+                duration: 0.5, 
+                delay: 0.3 + index * 0.1,
+                ease: [0.22, 1, 0.36, 1]
+              } : { duration: 0 }"
+              :inViewOptions="!isSafari ? { once: true, amount: 0.5 } : { once: true }"
+            >
               <div class="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
                 <h3 class="text-lg font-semibold text-white">{{ role.company }}</h3>
                 <span class="text-xs uppercase text-slate-500">{{ role.period }}</span>
               </div>
               <p class="text-base font-medium text-slate-200">{{ role.title }}</p>
               <p class="text-pretty text-base leading-relaxed text-slate-400">{{ role.summary }}</p>
-            </article>
+            </motion.article>
           </div>
-        </section>
+        </motion.section>
 
-        <section id="projects" class="mt-20 scroll-mt-24 text-left">
-          <h2 class="text-sm font-semibold uppercase text-white/80">PROJECTS</h2>
+        <section 
+          id="projects" 
+          class="mt-20 scroll-mt-24 text-left"
+        >
+          <h2 
+            class="text-sm font-semibold uppercase text-white/80"
+          >
+            PROJECTS
+          </h2>
           <div class="mt-10 grid grid-cols-1 gap-10">
-            <article
-              v-for="project in projects"
+            <motion.article
+              v-for="(project, index) in projects"
               :key="project.name"
               @click="async () => {await navigateTo(project.href, { external: true, open: { target: '_blank', }, })}"
               class="group cursor-pointer rounded-3xl border border-white/10 bg-white/5 p-6 transition-colors duration-300 hover:border-white/60 hover:bg-white/10"
+              :whileHover="{ 
+                scale: 1.02,
+                transition: { type: 'spring', stiffness: 400, damping: 17 }
+              }"
+              :whilePress="{ scale: 0.98 }"
             >
               <div class="flex items-center justify-between">
                 <h3 class="text-lg font-semibold text-white">{{ project.name }}</h3>
@@ -179,7 +309,7 @@
                 View project
                 <span class="ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
               </a>
-            </article>
+            </motion.article>
           </div>
         </section>
       </div>
@@ -189,7 +319,7 @@
 </template>
 
 <script setup lang="ts">
-import { motion } from 'motion-v'
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion-v'
 
 const toast = useToast()
 
@@ -202,6 +332,15 @@ const cursorLight = ref<HTMLElement | null>(null)
 const mouseX = ref(0)
 const mouseY = ref(0)
 const isDesktop = ref(false)
+const isSafari = ref(false)
+
+// Scroll progress tracking
+const { scrollYProgress } = useScroll()
+const scrollProgress = useSpring(scrollYProgress, {
+  stiffness: 100,
+  damping: 30,
+  restDelta: 0.001
+})
 
 let mediaQuery: MediaQueryList | null = null
 let mediaQueryChangeHandler: ((event: MediaQueryListEvent) => void) | null = null
@@ -444,6 +583,9 @@ onMounted(() => {
   })
 
   if (process.client) {
+    // Detect Safari
+    isSafari.value = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+    
     mediaQuery = window.matchMedia('(min-width: 1024px)')
     isDesktop.value = mediaQuery.matches
     applyScrollListeners(isDesktop.value)
