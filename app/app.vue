@@ -47,7 +47,7 @@
           :transition="{ duration: 0.6, delay: 0.2, ease: [0.22, 1, 0.36, 1] }"
         ></motion.h2>
         <motion.p 
-          class="mt-4 max-w-xs text-base leading-relaxed text-slate-300"
+          class="mt-4 max-w-xs text-base italic font-medium leading-relaxed text-slate-300"
           :initial="{ opacity: 0, y: 10 }"
           :animate="{ opacity: 1, y: 0 }"
           :transition="{ duration: 0.6, delay: 0.3, ease: [0.22, 1, 0.36, 1] }"
