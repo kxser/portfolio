@@ -481,11 +481,15 @@ const handleInteraction = () => {
 const sketch = (p: p5) => {
   p5ctx = p
 
+  const isPointerInsideCanvas = () => p.mouseX >= 0 && p.mouseX < canvasWidth && p.mouseY >= 0 && p.mouseY < canvasHeight
+
   p.setup = () => {
     calculateGridSize()
     const canvas = p.createCanvas(canvasWidth, canvasHeight)
     const parent = canvasRef.value
     if (parent) canvas.parent(parent)
+    const canvasElt = (canvas as unknown as { elt?: HTMLCanvasElement }).elt
+    if (canvasElt) canvasElt.style.touchAction = 'manipulation'
     initializeGrid()
   }
 
@@ -495,12 +499,12 @@ const sketch = (p: p5) => {
     initializeGrid()
   }
 
-  p.mousePressed = () => {
+  p.mousePressed = (_event?: MouseEvent) => {
     isDrawing = true
     handleInteraction()
   }
 
-  p.mouseDragged = () => {
+  p.mouseDragged = (_event?: MouseEvent) => {
     if (isDrawing) handleInteraction()
   }
 
@@ -508,20 +512,23 @@ const sketch = (p: p5) => {
     isDrawing = false
   }
 
-  p.touchStarted = () => {
+  p.touchStarted = (_event?: TouchEvent) => {
+    if (!isPointerInsideCanvas()) return
     isDrawing = true
     handleInteraction()
-    return false
   }
 
-  p.touchMoved = () => {
-    if (isDrawing) handleInteraction()
-    return false
+  p.touchMoved = (_event?: TouchEvent) => {
+    if (!isDrawing) return
+    if (!isPointerInsideCanvas()) {
+      isDrawing = false
+      return
+    }
+    handleInteraction()
   }
 
-  p.touchEnded = () => {
+  p.touchEnded = (_event?: TouchEvent) => {
     isDrawing = false
-    return false
   }
 
   p.draw = () => {

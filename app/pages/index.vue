@@ -67,7 +67,7 @@
                 duration: 0.4,
                 delay: index * 0.1,
                 ease: [0.22, 1, 0.36, 1]
-              }"
+                }"
             >
               <button
                 type="button"
@@ -334,12 +334,9 @@
             <motion.article 
               v-for="(credential, index) in credentials" 
               :key="credential.name" 
-              class="group space-y-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:border-white/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 cursor-pointer"
+              class="group space-y-2 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:border-white/60 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
               tabindex="0"
-              role="link"
-              @click="openCredential(credential.href)"
-              @keydown.enter.prevent="openCredential(credential.href)"
-              @keydown.space.prevent="openCredential(credential.href)"
+              :class="{'cursor-pointer hover:cursor-pointer': !!credential.image || !!credential.href}"
               :initial="!isSafari ? { opacity: 0, x: -30 } : { opacity: 1, x: 0 }"
               :whileInView="!isSafari ? { opacity: 1, x: 0 } : { opacity: 1, x: 0 }"
               :whileHover="{ scale: 1.01 }"
@@ -355,19 +352,99 @@
                 <span class="text-xs uppercase text-slate-400">{{ credential.issued }}</span>
               </div>
               <p class="text-base font-medium text-slate-300">{{ credential.organizationLabel }}: {{ credential.organization }}</p>
-              <motion.a
-                v-if="credential.href"
-                class="mt-2 inline-flex items-center text-sm font-medium text-white transition-colors duration-200 hover:text-slate-200 cursor-pointer"
-                :whileHover="{ x: 6 }"
-                :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
-                @click.stop="openCredential(credential.href)"
-              >
-                View credential
-                <span class="ml-2 transition-transform duration-200 group-hover:translate-x-1">→</span>
-              </motion.a>
+              <div class="mt-3 flex flex-wrap gap-3">
+                <motion.button
+                  v-if="credential.image"
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-sm font-semibold text-white/90 transition-all duration-200 hover:border-white/50 hover:bg-white/15 hover:text-white hover:cursor-pointer cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                  :whileHover="{ x: 4 }"
+                  :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
+                  @click.stop="showCredentialPreview(credential.image, credential.name)"
+                >
+                  View credential
+                  <span aria-hidden="true">↗</span>
+                </motion.button>
+                <motion.button
+                  v-else-if="credential.href"
+                  type="button"
+                  class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-3 py-1.5 text-sm font-semibold text-white/90 transition-all duration-200 hover:border-white/50 hover:bg-white/10 hover:text-white hover:cursor-pointer cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+                  :whileHover="{ x: 4 }"
+                  :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
+                  @click.stop="openCredential(credential.href)"
+                >
+                  View credential
+                  <span aria-hidden="true">↗</span>
+                </motion.button>
+              </div>
             </motion.article>
           </div>
         </motion.section>
+
+        <section class="mt-16 flex flex-col items-center gap-2 text-center">
+          <img
+            src="/signature_derin.png"
+            alt="Derin Alan Ritter signature"
+            class="h-14 w-auto opacity-90 invert brightness-0"
+            draggable="false"
+            loading="lazy"
+          />
+          <p class="text-sm font-medium text-slate-300">
+            Copyright © {{ currentYear }} — Made by Derin Alan Ritter
+          </p>
+          <p class="text-sm font-medium text-slate-300">
+            Time (UTC +3): <span class="text-white">{{ currentTimeUtc3 }}</span>
+          </p>
+          <a
+            href="https://derinaritter.com"
+            class="text-sm font-semibold text-white transition-colors duration-200 hover:text-slate-200"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            https://derinaritter.com
+          </a>
+        </section>
+
+        <AnimatePresence>
+          <Teleport to="body">
+            <motion.div
+              v-if="showCredentialModal"
+              class="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur"
+              :initial="{ opacity: 0 }"
+              :animate="{ opacity: 1 }"
+              :exit="{ opacity: 0 }"
+              @click.self="closeCredentialPreview"
+            >
+              <motion.div
+                class="relative w-[92vw] max-w-3xl rounded-2xl border border-white/15 bg-zinc-900/90 p-4 shadow-2xl"
+                role="dialog"
+                aria-modal="true"
+                :aria-label="selectedCredentialTitle || 'Credential preview'"
+                :initial="{ scale: 0.95, opacity: 0, y: 10 }"
+                :animate="{ scale: 1, opacity: 1, y: 0 }"
+                :exit="{ scale: 0.97, opacity: 0, y: 4 }"
+              >
+                <div class="mb-3 flex items-center justify-between gap-3">
+                  <h3 class="text-lg font-semibold text-white">{{ selectedCredentialTitle }}</h3>
+                  <button
+                    type="button"
+                    class="rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sm font-semibold text-white/90 transition-colors duration-200 hover:border-white/50 hover:text-white hover:cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 cursor-pointer"
+                    @click="closeCredentialPreview"
+                  >
+                    Close
+                  </button>
+                </div>
+                <div class="relative overflow-hidden rounded-xl border border-white/10 bg-black/30">
+                  <img
+                    v-if="selectedCredentialImage"
+                    :src="selectedCredentialImage"
+                    :alt="selectedCredentialTitle || 'Credential preview'"
+                    class="block max-h-[70vh] w-full object-contain"
+                  />
+                </div>
+              </motion.div>
+            </motion.div>
+          </Teleport>
+        </AnimatePresence>
       </div>
     </main>
   </div>
@@ -389,6 +466,11 @@ const mouseX = ref(0)
 const mouseY = ref(0)
 const isDesktop = ref(false)
 const isSafari = ref(false)
+const showCredentialModal = ref(false)
+const selectedCredentialImage = ref('')
+const selectedCredentialTitle = ref('')
+const currentTimeUtc3 = ref('')
+const currentYear = new Date().getFullYear()
 
 // Scroll progress tracking
 const { scrollYProgress } = useScroll()
@@ -400,6 +482,7 @@ const scrollProgress = useSpring(scrollYProgress, {
 
 let mediaQuery: MediaQueryList | null = null
 let mediaQueryChangeHandler: ((event: MediaQueryListEvent) => void) | null = null
+let timeInterval: number | null = null
 
 
 const sectionIds = ['about', 'experience', 'projects', 'credentials'] as const
@@ -460,6 +543,34 @@ const openCredential = async (href?: string) => {
   await navigateTo(href, { external: true, open: { target: '_blank' } })
 }
 
+const showCredentialPreview = (image?: string, title?: string) => {
+  if (!image) {
+    return
+  }
+
+  selectedCredentialImage.value = image
+  selectedCredentialTitle.value = title ?? 'Credential preview'
+  showCredentialModal.value = true
+}
+
+const closeCredentialPreview = () => {
+  showCredentialModal.value = false
+  nextTick(() => {
+    selectedCredentialImage.value = ''
+  })
+}
+
+const updateUtc3Time = () => {
+  const now = new Date()
+  const utcMillis = now.getTime() + now.getTimezoneOffset() * 60000
+  const target = new Date(utcMillis + 3 * 60 * 60 * 1000)
+  currentTimeUtc3.value = target.toLocaleTimeString('en-GB', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
+}
+
 const experience = [
   {
     company: 'The College Chronicle',
@@ -505,13 +616,38 @@ const experience = [
   },
 ]
 
-const credentials = [
+type Credential = {
+  name: string
+  organization: string
+  organizationLabel: string
+  issued: string
+  href?: string
+  image?: string
+}
+
+const credentials: Credential[] = [
   {
     name: 'Private Anatolian High School Diploma',
     organization: 'METU D.F. Private Anatolian High School',
     organizationLabel: 'Institution',
     issued: 'Expected: June 2026',
     href: ''
+  },
+  {
+    name: 'SAT',
+    organization: 'College Board',
+    organizationLabel: 'Organization',
+    issued: 'Issued: See credential',
+    href: '/credentials/redacted_sat.jpg',
+    image: '/credentials/redacted_sat.jpg'
+  },
+  {
+    name: 'IELTS Academic',
+    organization: 'IELTS',
+    organizationLabel: 'Organization',
+    issued: 'Issued: See credential',
+    href: '/credentials/redacted_ielts.jpg',
+    image: '/credentials/redacted_ielts.jpg'
   },
   {
     name: 'Linux for Developers',
@@ -687,6 +823,9 @@ onMounted(() => {
     }
 
     mediaQuery.addEventListener('change', mediaQueryChangeHandler)
+
+    updateUtc3Time()
+    timeInterval = window.setInterval(updateUtc3Time, 1000)
   }
 
   updateCurrentSection()
@@ -701,6 +840,10 @@ onBeforeUnmount(() => {
 
     if (mediaQuery && mediaQueryChangeHandler) {
       mediaQuery.removeEventListener('change', mediaQueryChangeHandler)
+    }
+
+    if (timeInterval) {
+      clearInterval(timeInterval)
     }
   }
 })
