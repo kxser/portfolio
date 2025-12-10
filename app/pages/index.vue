@@ -212,7 +212,7 @@
             :transition="!isSafari ? { duration: 0.5, delay: 0.5 } : { duration: 0 }"
             :inViewOptions="!isSafari ? { once: true } : { once: true }"
           >
-            My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture.
+            My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture. I frequently leverage my reputation as the school's primary technical troubleshooter to design and implement IT infrastructure for multiple student organizations.
           </motion.p>
           <motion.div 
             class="mt-6"
@@ -679,6 +679,13 @@ const projects = [
     description:
       'An interactive pathfinding algorithm visualizer meant to demonstrate how A* search pathfinding works.',
     href: 'https://derinaritter.com/astar'
+  },
+  {
+    name: 'TEDxODTUGVO Youth Website',
+    year: '2025',
+    description:
+      'Due to my background while being a keynote speaker for TEDxODTUGVO Youth, I was commisioned to build a website for the event that adheres to required standards.',
+    href: 'https://tedxodtugvo.org'
   },
   {
     name: 'The College Chronicle',
