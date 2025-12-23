@@ -6,7 +6,7 @@
           <h1 class="text-3xl font-semibold text-white sm:text-4xl">A* Pathfinding Visualizer</h1>
           <p class="max-w-2xl text-sm text-slate-400 sm:text-base">
             Paint obstacles whatever way you'd like, set start/goal tiles, then watch the A* algorithm explore the grid. Toggle delay for instant
-            solving or slower, step-by-step visualization. Fully touch friendly.
+            solving or slower, step-by-step visualization. Fully mobile friendly.
           </p>
         </div>
         <div class="flex flex-wrap gap-3">
