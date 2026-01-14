@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   srcDir: "app",
   compatibilityDate: "2025-12-23",
   devtools: { enabled: true },
-  modules: ["@nuxt/ui", "motion-v/nuxt"],
+  modules: ["@nuxt/ui", "motion-v/nuxt", "@nuxt/image"],
   css: ["~/assets/css/main.css"],
   nitro: {
     preset: "cloudflare_module",

@@ -9,7 +9,6 @@
   <div
     class="relative flex min-h-screen w-screen flex-col overflow-hidden bg-zinc-950 text-slate-100 lg:h-screen lg:flex-row"
     @wheel="handleWheel"
-    @mousemove="handleMouseMove"
   >
     <div class="pointer-events-none absolute inset-0 -z-20">
       <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.18),transparent_55%),linear-gradient(180deg,rgba(9,9,11,0.92),rgba(9,9,11,0.99))]"></div>
@@ -381,7 +380,7 @@
         </motion.section>
 
         <section class="mt-16 flex flex-col items-center gap-2 text-center">
-          <img
+          <NuxtImg
             src="/signature_derin.png"
             alt="Derin Alan Ritter signature"
             class="h-14 w-auto opacity-90 invert brightness-0"
@@ -434,11 +433,12 @@
                   </button>
                 </div>
                 <div class="relative overflow-hidden rounded-xl border border-white/10 bg-black/30">
-                  <img
+                  <NuxtImg
                     v-if="selectedCredentialImage"
                     :src="selectedCredentialImage"
                     :alt="selectedCredentialTitle || 'Credential preview'"
                     class="block max-h-[70vh] w-full object-contain"
+                    loading="lazy"
                   />
                 </div>
               </motion.div>
@@ -462,8 +462,6 @@ useHead({
 
 const rightSide = ref<HTMLElement | null>(null)
 const cursorLight = ref<HTMLElement | null>(null)
-const mouseX = ref(0)
-const mouseY = ref(0)
 const isDesktop = ref(false)
 const isSafari = ref(false)
 const showCredentialModal = ref(false)
@@ -719,46 +717,6 @@ const projects = [
 
 
 
-const getSectionCenter = (element: HTMLElement) => {
-  if (isDesktop.value && rightSide.value) {
-    return element.offsetTop + element.offsetHeight / 2
-  }
-
-  return element.getBoundingClientRect().top + window.scrollY + element.offsetHeight / 2
-}
-
-const updateCurrentSection = () => {
-  if (!process.client) {
-    return
-  }
-
-  let closestSection: SectionId = currentSection.value
-  let smallestDistance = Number.POSITIVE_INFINITY
-
-  const scrollPosition = isDesktop.value && rightSide.value ? rightSide.value.scrollTop : window.scrollY
-  const viewportCenter = isDesktop.value && rightSide.value
-    ? scrollPosition + rightSide.value.clientHeight / 2
-    : scrollPosition + window.innerHeight / 2
-
-  sectionIds.forEach((id) => {
-    const element = sectionElements[id] ?? document.getElementById(id)
-    if (!element) {
-      return
-    }
-
-    sectionElements[id] = element
-    const sectionCenter = getSectionCenter(element)
-    const distance = Math.abs(sectionCenter - viewportCenter)
-
-    if (distance < smallestDistance) {
-      smallestDistance = distance
-      closestSection = id
-    }
-  })
-
-  currentSection.value = closestSection
-}
-
 const scrollToSection = (id: SectionId) => {
   const target = sectionElements[id] ?? document.getElementById(id)
   if (!target) {
@@ -772,42 +730,43 @@ const scrollToSection = (id: SectionId) => {
   } else if (process.client) {
     target.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
-
-  currentSection.value = id
+  
+  // currentSection updated via observer
 }
 
 const handleWheel = (event: WheelEvent) => {
   if (isDesktop.value && rightSide.value) {
+    // Allow native scrolling when hovering over the content
+    if (rightSide.value.contains(event.target as Node)) {
+      return
+    }
+
     event.preventDefault()
     rightSide.value.scrollTop += event.deltaY
-    updateCurrentSection()
   }
 }
 
-const handleMouseMove = (event: MouseEvent) => {
-  mouseX.value = event.clientX
-  mouseY.value = event.clientY
-}
+let observer: IntersectionObserver | null = null
 
-const handleScrollEvent = () => {
-  updateCurrentSection()
-}
+const initObserver = () => {
+  if (observer) observer.disconnect()
 
-const applyScrollListeners = (desktop: boolean) => {
-  if (!process.client) {
-    return
-  }
+  observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        currentSection.value = entry.target.id as SectionId
+      }
+    })
+  }, {
+    root: null,
+    rootMargin: '-45% 0px -45% 0px',
+    threshold: 0
+  })
 
-  window.removeEventListener('scroll', handleScrollEvent)
-  if (rightSide.value) {
-    rightSide.value.removeEventListener('scroll', handleScrollEvent)
-  }
-
-  if (desktop && rightSide.value) {
-    rightSide.value.addEventListener('scroll', handleScrollEvent, { passive: true })
-  } else if (!desktop) {
-    window.addEventListener('scroll', handleScrollEvent, { passive: true })
-  }
+  sectionIds.forEach((id) => {
+    const el = document.getElementById(id)
+    if (el) observer?.observe(el)
+  })
 }
 
 onMounted(() => {
@@ -821,36 +780,45 @@ onMounted(() => {
     
     mediaQuery = window.matchMedia('(min-width: 1024px)')
     isDesktop.value = mediaQuery.matches
-    applyScrollListeners(isDesktop.value)
+    
+    // Mouse positioning optimization
+    let ticking = false
+    window.addEventListener('mousemove', (e) => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`)
+          document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`)
+          ticking = false
+        })
+        ticking = true
+      }
+    })
 
     mediaQueryChangeHandler = (event: MediaQueryListEvent) => {
       isDesktop.value = event.matches
-      applyScrollListeners(event.matches)
-      nextTick(() => updateCurrentSection())
     }
 
     mediaQuery.addEventListener('change', mediaQueryChangeHandler)
 
     updateUtc3Time()
     timeInterval = window.setInterval(updateUtc3Time, 1000)
+    
+    initObserver()
   }
-
-  updateCurrentSection()
 })
 
 onBeforeUnmount(() => {
   if (process.client) {
-    window.removeEventListener('scroll', handleScrollEvent)
-    if (rightSide.value) {
-      rightSide.value.removeEventListener('scroll', handleScrollEvent)
-    }
-
     if (mediaQuery && mediaQueryChangeHandler) {
       mediaQuery.removeEventListener('change', mediaQueryChangeHandler)
     }
 
     if (timeInterval) {
       clearInterval(timeInterval)
+    }
+    
+    if (observer) {
+      observer.disconnect()
     }
   }
 })
