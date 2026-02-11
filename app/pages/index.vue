@@ -505,7 +505,7 @@ const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/kxser', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
   { label: 'Email', href: 'derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
-  { label: 'Instagram', href: 'https://www.instagram.com/derinnritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
+  { label: 'Instagram', href: 'https://www.instagram.com/derinaritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
   { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc', tooltip: 'BTC Wallet' },
   { label: 'ETH', href: '0x38d423Ddb091A89934Efa9528D9125DD93aB2d6f', icon: 'i-cryptocurrency-eth', tooltip: 'ETH Wallet' },
 ]
@@ -632,7 +632,7 @@ const credentials: Credential[] = [
     href: ''
   },
   {
-    name: 'SAT',
+    name: 'SAT: 1500/1600',
     organization: 'College Board',
     organizationLabel: 'Organization',
     issued: 'Issued: See credential',
@@ -640,7 +640,7 @@ const credentials: Credential[] = [
     image: '/credentials/redacted_sat.jpg'
   },
   {
-    name: 'IELTS Academic',
+    name: 'IELTS Academic: 8.5/9',
     organization: 'IELTS',
     organizationLabel: 'Organization',
     issued: 'Issued: See credential',
@@ -682,14 +682,14 @@ const projects = [
     name: 'TEDxODTUGVO Youth Website',
     year: '2025',
     description:
-      'Due to my background while being a keynote speaker for TEDxODTUGVO Youth, I was commisioned to build a website for the event that adheres to required standards.',
+      'Commissioned to develop the official event website as a keynote speaker for TEDxODTUGVO Youth. Built a platform adhering to TEDx brand guidelines and standards.',
     href: 'https://tedxodtugvo.org'
   },
   {
     name: 'The College Chronicle',
     year: '2025',
     description:
-      'Digital school journal/newspaper platform. Built complete infrastructure and website for breakaway newspaper branch.',
+      'Co-founded and serve as Editor for this digital school journal. Solely responsible for building and maintaining the entire technical infrastructure and website.',
     href: 'https://thecollegechronicle.org'
   },
   {
