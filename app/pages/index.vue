@@ -662,7 +662,7 @@ const credentials: Credential[] = [
     href: 'https://www.coursera.org/account/accomplishments/verify/V8482ZLYJ10A'
   },
   {
-    name: 'Web Scraping with Python',
+    name: 'Duke University, Web Scraping with Python',
     organization: 'Duke University, CID: 4HP21D5T9Q2K',
     organizationLabel: 'Organization',
     issued: 'Issued: See credential',
