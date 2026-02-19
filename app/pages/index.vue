@@ -648,6 +648,13 @@ const credentials: Credential[] = [
     image: '/credentials/redacted_ielts.jpg'
   },
   {
+    name: 'Duke University, Web Scraping with Python',
+    organization: 'Duke University, CID: 4HP21D5T9Q2K',
+    organizationLabel: 'Organization',
+    issued: 'Issued: See credential',
+    href: 'https://www.coursera.org/account/accomplishments/verify/4HP21D5T9Q2K'
+  },
+  {
     name: 'Linux for Developers',
     organization: 'The Linux Foundation, CID: 2HLEN6G2U4OZ',
     organizationLabel: 'Organization',
@@ -660,13 +667,6 @@ const credentials: Credential[] = [
     organizationLabel: 'Organization',
     issued: 'Issued: Jul 2025',
     href: 'https://www.coursera.org/account/accomplishments/verify/V8482ZLYJ10A'
-  },
-  {
-    name: 'Duke University, Web Scraping with Python',
-    organization: 'Duke University, CID: 4HP21D5T9Q2K',
-    organizationLabel: 'Organization',
-    issued: 'Issued: See credential',
-    href: 'https://www.coursera.org/account/accomplishments/verify/4HP21D5T9Q2K'
   },
   {
     name: 'Introduction to Personal Finance',
