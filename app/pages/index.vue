@@ -502,7 +502,7 @@ let sectionElements: Record<SectionId, HTMLElement | null> = {
 }
 
 const socialLinks = [
-  { label: 'GitHub', href: 'https://github.com/kxser', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
+  { label: 'GitHub', href: 'https://github.com/derinaritter', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
   { label: 'Email', href: 'derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
   { label: 'Instagram', href: 'https://www.instagram.com/derinaritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
@@ -660,6 +660,20 @@ const credentials: Credential[] = [
     organizationLabel: 'Organization',
     issued: 'Issued: Jul 2025',
     href: 'https://www.coursera.org/account/accomplishments/verify/V8482ZLYJ10A'
+  },
+  {
+    name: 'Web Scraping with Python',
+    organization: 'Duke University, CID: 4HP21D5T9Q2K',
+    organizationLabel: 'Organization',
+    issued: 'Issued: See credential',
+    href: 'https://www.coursera.org/account/accomplishments/verify/4HP21D5T9Q2K'
+  },
+  {
+    name: 'Introduction to Personal Finance',
+    organization: 'SoFi, CID: 1SGP8PPRV4UW',
+    organizationLabel: 'Organization',
+    issued: 'Issued: See credential',
+    href: 'https://www.coursera.org/account/accomplishments/verify/1SGP8PPRV4UW'
   }
 ]
 
@@ -704,14 +718,14 @@ const projects = [
     year: '2025',
     description:
       'A fully self-contained authentication framework to be used as a starting point for Nuxt 4 applications. It requires no backend services and is perfect for small applications.',
-    href: 'https://github.com/kxser/nuxtauth'
+    href: 'https://github.com/derinaritter/nuxtauth'
   },
     {
     name: 'Arrow Cursor Follow',
     year: '2025',
     description:
       'Lightweight demonstration that renders an arrow array element that smoothly rotates and points toward (or chases) the  mouse / pointer position. Similar to a magnetic filing effect.',
-    href: 'https://github.com/kxser/arrow-cursor-follow'
+    href: 'https://github.com/derinaritter/arrow-cursor-follow'
   },
 ]
 
