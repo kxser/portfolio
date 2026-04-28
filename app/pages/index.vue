@@ -503,7 +503,7 @@ let sectionElements: Record<SectionId, HTMLElement | null> = {
 
 const socialLinks = [
   { label: 'GitHub', href: 'https://github.com/derinaritter', icon: 'i-simple-icons-github', tooltip: 'GitHub' },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/d-alan-ritter-441403348/', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/derinaritter', icon: 'i-simple-icons-linkedin', tooltip: 'LinkedIn' },
   { label: 'Email', href: 'derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
   { label: 'Instagram', href: 'https://www.instagram.com/derinaritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
   { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc', tooltip: 'BTC Wallet' },
