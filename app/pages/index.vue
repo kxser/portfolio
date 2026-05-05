@@ -121,46 +121,75 @@
         </nav>
 
       </div>
-      <motion.ul 
-        class="mt-10 flex items-center gap-5 text-sm text-slate-400" 
-        aria-label="Social media"
-        :initial="{ opacity: 0, y: 20 }"
-        :animate="{ opacity: 1, y: 0 }"
-        :transition="{ 
-          duration: 0.6,
-          delay: 0.8,
-          ease: [0.22, 1, 0.36, 1]
-        }"
-      >
-        <motion.li 
-          v-for="(link, index) in socialLinks" 
-          :key="link.label"
-          :initial="{ opacity: 0, scale: 0.8 }"
-          :animate="{ opacity: 1, scale: 1 }"
+      <div class="mt-6">
+        <motion.div
+          class="flex items-center gap-6 text-sm font-medium text-slate-400"
+          :initial="{ opacity: 0, y: 12 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ duration: 0.5, delay: 0.7, ease: [0.22, 1, 0.36, 1] }"
+        >
+          <motion.a
+            href="https://blog.derinaritter.com"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="transition-colors duration-200 hover:text-white focus-visible:text-white"
+            :whileHover="{ y: -2 }"
+            :transition="{ type: 'spring', stiffness: 400, damping: 20 }"
+          >
+            BLOG
+          </motion.a>
+          <motion.a
+            href="https://docs.google.com/document/d/101nZjssknWJN8Hzj-dGkIo488KDSQYsji54a1PD7qGQ/edit?tab=t.0"
+            target="_blank"
+            rel="noreferrer noopener"
+            class="transition-colors duration-200 hover:text-white focus-visible:text-white"
+            :whileHover="{ y: -2 }"
+            :transition="{ type: 'spring', stiffness: 400, damping: 20 }"
+          >
+            RESUME
+          </motion.a>
+        </motion.div>
+        <motion.ul 
+          class="mt-3 flex items-center gap-5 text-sm text-slate-400" 
+          aria-label="Social media"
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
           :transition="{ 
-            duration: 0.4,
-            delay: 0.9 + index * 0.05,
+            duration: 0.6,
+            delay: 0.8,
             ease: [0.22, 1, 0.36, 1]
           }"
         >
-          <UTooltip
-            arrow
-            :delay-duration="0"
-            :text="link.tooltip ?? link.label"
+          <motion.li 
+            v-for="(link, index) in socialLinks" 
+            :key="link.label"
+            :initial="{ opacity: 0, scale: 0.8 }"
+            :animate="{ opacity: 1, scale: 1 }"
+            :transition="{ 
+              duration: 0.4,
+              delay: 0.9 + index * 0.05,
+              ease: [0.22, 1, 0.36, 1]
+            }"
           >
-            <motion.a
-              :whileHover="{ scale: 1.2, rotate: 5 }"
-              :whilePress="{ scale: 0.85 }"
-              :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
-              @click="executeSocialClick(link.href, link.label)"
-              class="flex cursor-pointer items-center justify-center transition-colors duration-200 hover:text-white focus-visible:text-white"
+            <UTooltip
+              arrow
+              :delay-duration="0"
+              :text="link.tooltip ?? link.label"
             >
-              <UIcon :name="link.icon" class="h-5 w-5 sm:h-6 sm:w-6" />
-              <span class="sr-only">{{ link.label }}</span>
-            </motion.a>
-          </UTooltip>
-        </motion.li>
-      </motion.ul>
+              <motion.a
+                :whileHover="{ scale: 1.2, rotate: 5 }"
+                :whilePress="{ scale: 0.85 }"
+                :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
+                @click="executeSocialClick(link.href, link.label)"
+                class="flex cursor-pointer items-center justify-center transition-colors duration-200 hover:text-white focus-visible:text-white"
+              >
+                <UIcon :name="link.icon" class="h-5 w-5 sm:h-6 sm:w-6" />
+                <span class="sr-only">{{ link.label }}</span>
+              </motion.a>
+            </UTooltip>
+          </motion.li>
+        </motion.ul>
+      </div>
     </header>
 
     <!-- Content Panel -->
@@ -507,7 +536,6 @@ const socialLinks = [
   { label: 'Email', href: 'derinaritter@protonmail.ch', icon: 'i-simple-icons-maildotru', tooltip: 'derinaritter@protonmail.ch' },
   { label: 'Instagram', href: 'https://www.instagram.com/derinaritter/', icon: 'i-simple-icons-instagram', tooltip: 'Instagram' },
   { label: 'BTC', href: 'bc1qt4rsgxh4r82xxkkkntt5regrs06m5vhx2zelq6', icon: 'i-cryptocurrency-btc', tooltip: 'BTC Wallet' },
-  { label: 'ETH', href: '0x38d423Ddb091A89934Efa9528D9125DD93aB2d6f', icon: 'i-cryptocurrency-eth', tooltip: 'ETH Wallet' },
 ]
 async function executeSocialClick(href: string, label: string) {
   console.log(href, label)
