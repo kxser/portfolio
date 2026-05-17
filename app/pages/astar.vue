@@ -509,7 +509,7 @@ const sketch = (p: p5) => {
     const parent = canvasRef.value
     if (parent) canvas.parent(parent)
     const canvasElt = (canvas as unknown as { elt?: HTMLCanvasElement }).elt
-    if (canvasElt) canvasElt.style.touchAction = 'manipulation'
+    if (canvasElt) canvasElt.style.touchAction = 'none'
     initializeGrid()
   }
 
