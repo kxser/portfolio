@@ -1,197 +1,192 @@
 <template>
   <div class="min-h-screen bg-zinc-950 text-slate-100">
-    <UContainer class="py-12 space-y-8">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div class="space-y-2">
-          <h1 class="text-3xl font-semibold text-white sm:text-4xl">A* Pathfinding Visualizer</h1>
-          <p class="max-w-2xl text-sm text-slate-400 sm:text-base">
-            Paint obstacles whatever way you'd like, set start/goal tiles, then watch the A* algorithm explore the grid. Toggle delay for instant
-            solving or slower, step-by-step visualization. Fully mobile friendly.
-          </p>
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <UButton
-            to="/"
-            variant="ghost"
-            color="neutral"
-            icon="i-heroicons-arrow-left"
-            label="Back home"
-            class="border border-white/20 hover:border-white/50 cursor-pointer"
-          />
-        </div>
-      </div>
+    <div class="mx-auto w-full max-w-5xl px-6 py-16 sm:px-12 lg:py-24">
+      <header>
+        <motion.a
+          href="/"
+          class="inline-flex w-fit items-center gap-2 text-sm font-medium text-slate-400 transition-colors duration-200 hover:text-white focus-visible:text-white focus-visible:outline-none"
+          :whileHover="{ x: -4 }"
+          :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
+        >
+          <span aria-hidden="true">←</span>
+          Back home
+        </motion.a>
+        <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          A* Pathfinding Visualizer
+        </h1>
+        <p class="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-slate-300">
+          Paint obstacles, set start and goal tiles, then watch the A* algorithm explore the grid.
+          Toggle delay for instant solving or a step-by-step walkthrough. Works on touch devices too.
+        </p>
+      </header>
 
-      <div class="grid gap-6 lg:grid-cols-[320px,1fr]">
-        <UCard class="border border-white/10 bg-white/5">
-          <template #header>
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-xs font-semibold uppercase text-slate-200">Controls</p>
-                <p class="text-sm text-slate-300">Configure drawing + simulation</p>
-              </div>
-              <UBadge color="neutral" variant="subtle">{{ gridMeta.cols }} x {{ gridMeta.rows }}</UBadge>
-            </div>
-          </template>
+      <section class="mt-12">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-base font-semibold text-white">Controls</h2>
+          <span class="text-xs tabular-nums text-slate-500">
+            {{ gridMeta.cols }} × {{ gridMeta.rows }} grid
+          </span>
+        </div>
 
-          <div class="space-y-5">
-            <div class="space-y-2">
-              <p class="text-xs font-semibold uppercase text-slate-400">Draw Mode</p>
-              <div class="grid grid-cols-3 gap-2">
-                <UButton
-                  v-for="mode in drawModes"
-                  :key="mode.value"
-                  color="neutral"
-                  :variant="controls.drawMode === mode.value ? 'solid' : 'outline'"
-                  size="sm"
-                  :class="[
-                    'cursor-pointer border transition',
-                    controls.drawMode === mode.value ? 'border-white' : 'border-white/20 hover:border-white/50'
-                  ]"
-                  :aria-pressed="controls.drawMode === mode.value"
-                  @click="setDrawMode(mode.value)"
+        <div class="mt-5 space-y-4 border-l border-white/10 pl-5 text-sm">
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p class="w-28 shrink-0 text-slate-400">Paint as</p>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <button
+                v-for="mode in drawModes"
+                :key="mode.value"
+                type="button"
+                :aria-pressed="controls.drawMode === mode.value"
+                class="group inline-flex cursor-pointer items-center gap-2 transition-colors duration-200 focus-visible:outline-none"
+                :class="controls.drawMode === mode.value
+                  ? 'text-white'
+                  : 'text-slate-400 hover:text-white focus-visible:text-white'"
+                @click="setDrawMode(mode.value)"
+              >
+                <span
+                  class="inline-block h-3 w-3 rounded-sm border border-white/10"
+                  :style="{ background: mode.swatch }"
+                  aria-hidden="true"
+                ></span>
+                <span
+                  class="underline-offset-4"
+                  :class="controls.drawMode === mode.value
+                    ? 'underline'
+                    : 'group-hover:underline group-focus-visible:underline'"
                 >
                   {{ mode.label }}
-                </UButton>
-              </div>
+                </span>
+              </button>
             </div>
+          </div>
 
-            <div class="space-y-3">
-              <p class="text-xs font-semibold uppercase text-slate-400">Action</p>
-              <div class="grid grid-cols-2 gap-2">
-                <UButton
-                  color="neutral"
-                  :variant="controls.actionMode === 'draw' ? 'solid' : 'outline'"
-                  size="sm"
-                  :aria-pressed="controls.actionMode === 'draw'"
-                  class="cursor-pointer border transition border-white/20 hover:border-white/50"
-                  @click="setActionMode('draw')"
-                >
-                  Draw
-                </UButton>
-                <UButton
-                  color="neutral"
-                  :variant="controls.actionMode === 'erase' ? 'solid' : 'outline'"
-                  size="sm"
-                  :aria-pressed="controls.actionMode === 'erase'"
-                  class="cursor-pointer border transition border-white/20 hover:border-white/50"
-                  @click="setActionMode('erase')"
-                >
-                  Erase
-                </UButton>
-              </div>
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p class="w-28 shrink-0 text-slate-400">Pointer action</p>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <button
+                v-for="action in actionModes"
+                :key="action.value"
+                type="button"
+                :aria-pressed="controls.actionMode === action.value"
+                class="cursor-pointer underline-offset-4 transition-colors duration-200 focus-visible:outline-none"
+                :class="controls.actionMode === action.value
+                  ? 'text-white underline'
+                  : 'text-slate-400 hover:text-white hover:underline focus-visible:text-white focus-visible:underline'"
+                @click="setActionMode(action.value)"
+              >
+                {{ action.label }}
+              </button>
             </div>
+          </div>
 
-            <div class="space-y-3">
-              <div class="flex items-center justify-between text-sm text-slate-300">
-                <span>Step delay</span>
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-slate-400">{{ controls.stepDelay }} ms</span>
-                  <USwitch v-model="controls.delayEnabled" size="sm" />
-                </div>
-              </div>
-              <input type="range" :min="5" :max="250" v-model.number="controls.stepDelay" class="w-full accent-white" />
-              <p class="text-xs text-slate-400">Disable delay for instant solving; keep on for step-by-step.</p>
-            </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <label for="step-delay" class="w-28 shrink-0 text-slate-400">Step delay</label>
+            <input
+              id="step-delay"
+              type="range"
+              :min="5"
+              :max="250"
+              v-model.number="controls.stepDelay"
+              :disabled="!controls.delayEnabled"
+              class="h-1 max-w-[10rem] flex-1 accent-white disabled:cursor-not-allowed disabled:opacity-40"
+            />
+            <span class="tabular-nums text-xs text-slate-400">
+              {{ controls.delayEnabled ? `${controls.stepDelay} ms` : 'instant' }}
+            </span>
+            <USwitch
+              v-model="controls.delayEnabled"
+              size="sm"
+              :aria-label="controls.delayEnabled ? 'Disable step delay' : 'Enable step delay'"
+            />
+          </div>
 
-            <div class="grid grid-cols-2 gap-3">
-              <UButton
-                color="neutral"
-                variant="outline"
-                icon="i-heroicons-sparkles"
-                class="cursor-pointer border border-white/20 hover:border-white/50"
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <p class="w-28 shrink-0 text-slate-400">Grid</p>
+            <div class="flex flex-wrap gap-x-4 gap-y-1">
+              <button
+                type="button"
+                class="cursor-pointer text-slate-200 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline focus-visible:text-white focus-visible:underline focus-visible:outline-none"
                 @click="randomizeObstacles()"
               >
                 Randomize
-              </UButton>
-              <UButton
-                color="neutral"
-                variant="outline"
-                icon="i-heroicons-backspace"
-                class="cursor-pointer border border-white/20 hover:border-white/50"
+              </button>
+              <button
+                type="button"
+                class="cursor-pointer text-slate-200 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline focus-visible:text-white focus-visible:underline focus-visible:outline-none"
                 @click="clearObstacles"
               >
-                Clear
-              </UButton>
-              <UButton
-                color="neutral"
-                variant="outline"
-                icon="i-heroicons-arrow-path"
-                class="cursor-pointer border border-white/20 hover:border-white/50"
+                Clear grid
+              </button>
+              <button
+                type="button"
+                class="cursor-pointer text-slate-200 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline focus-visible:text-white focus-visible:underline focus-visible:outline-none"
                 @click="resetStartGoal"
               >
-                Reset start/goal
-              </UButton>
-              <UButton
-                color="neutral"
-                variant="outline"
-                icon="i-heroicons-stop"
-                class="cursor-pointer border border-white/20 hover:border-white/50"
-                @click="stopSimulation"
-              >
-                Stop
-              </UButton>
+                Reset endpoints
+              </button>
             </div>
+          </div>
 
-            <UButton
-              block
-              color="neutral"
-              variant="solid"
-              size="lg"
-              :loading="isRunning"
-              icon="i-heroicons-play"
-              class="cursor-pointer border border-white/20 hover:border-white/50"
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1">
+            <motion.button
+              type="button"
+              :disabled="isRunning"
+              class="group inline-flex items-center gap-2 text-base font-semibold text-white transition-colors duration-200 cursor-pointer hover:text-slate-200 disabled:cursor-wait disabled:opacity-60 focus-visible:text-slate-200 focus-visible:outline-none"
+              :whileHover="!isRunning ? { x: 4 } : {}"
+              :transition="{ type: 'spring', stiffness: 400, damping: 17 }"
               @click="runSimulation"
             >
-              Start A*
-            </UButton>
+              {{ isRunning ? 'Solving…' : 'Run A* search' }}
+              <span aria-hidden="true" class="transition-transform duration-200 group-hover:translate-x-1">→</span>
+            </motion.button>
+            <button
+              v-if="isRunning"
+              type="button"
+              class="cursor-pointer text-sm font-medium text-slate-400 underline-offset-4 transition-colors duration-200 hover:text-white hover:underline focus-visible:text-white focus-visible:underline focus-visible:outline-none"
+              @click="stopSimulation"
+            >
+              Stop
+            </button>
           </div>
-        </UCard>
-
-        <div class="space-y-6">
-          <div class="grid gap-4 sm:grid-cols-4">
-            <UCard class="border border-white/10 bg-white/5">
-              <p class="text-xs font-semibold uppercase text-slate-200">Path length</p>
-              <p class="text-2xl font-semibold text-white">{{ status.pathLength }}</p>
-            </UCard>
-            <UCard class="border border-white/10 bg-white/5">
-              <p class="text-xs font-semibold uppercase text-slate-200">Explored</p>
-              <p class="text-2xl font-semibold text-white">{{ status.explored }}</p>
-            </UCard>
-            <UCard class="border border-white/10 bg-white/5">
-              <p class="text-xs font-semibold uppercase text-slate-200">Open set</p>
-              <p class="text-2xl font-semibold text-white">{{ status.openCount }}</p>
-            </UCard>
-            <UCard class="border border-white/10 bg-white/5">
-              <p class="text-xs font-semibold uppercase text-slate-200">Closed set</p>
-              <p class="text-2xl font-semibold text-white">{{ status.closedCount }}</p>
-            </UCard>
-          </div>
-
-          <UCard class="border border-white/10 bg-white/5">
-            <template #header>
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-xs font-semibold uppercase text-slate-200">Canvas</p>
-                  <p class="text-sm text-slate-300">Tap or click to paint. Red = goal, Green = start.</p>
-                </div>
-                <UBadge :color="isRunning ? 'warning' : 'neutral'" variant="subtle">
-                  {{ isRunning ? 'Running' : 'Idle' }}
-                </UBadge>
-              </div>
-            </template>
-            <div ref="canvasRef" class="overflow-hidden rounded-xl border border-white/10 bg-black/50" />
-          </UCard>
         </div>
-      </div>
-    </UContainer>
+      </section>
+
+      <section class="mt-16">
+        <div class="flex items-baseline justify-between">
+          <h2 class="text-base font-semibold text-white">Grid</h2>
+          <span
+            class="text-xs transition-colors duration-200"
+            :class="isRunning ? 'text-amber-300' : 'text-slate-500'"
+            aria-live="polite"
+          >
+            {{ isRunning ? 'Running' : 'Idle' }}
+          </span>
+        </div>
+        <p class="mt-1 text-sm text-slate-400">
+          Click or drag to paint. Green = start, red = goal.
+        </p>
+        <div ref="canvasRef" class="mt-5 overflow-hidden border border-white/10 bg-black/40" />
+        <dl class="mt-5 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-4">
+          <div v-for="stat in liveStats" :key="stat.label" class="flex items-baseline gap-2">
+            <dt class="text-xs text-slate-500">{{ stat.label }}</dt>
+            <dd class="text-base font-semibold tabular-nums text-white">{{ stat.value }}</dd>
+          </div>
+        </dl>
+        <div class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-slate-400">
+          <div v-for="item in legend" :key="item.label" class="flex items-center gap-2">
+            <span class="h-2.5 w-2.5 rounded-sm" :style="{ background: item.color }" aria-hidden="true"></span>
+            {{ item.label }}
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue'
+import { motion } from 'motion-v'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore - using custom shim in types/p5.d.ts
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - using custom shim in types/p5.d.ts
 import type p5 from 'p5'
@@ -214,6 +209,10 @@ interface Cell {
 type DrawMode = 'obstacle' | 'start' | 'goal'
 type ActionMode = 'draw' | 'erase'
 
+useHead({
+  title: 'A* Pathfinding Visualizer — Derin Alan Ritter'
+})
+
 const canvasRef = ref<HTMLDivElement | null>(null)
 const isRunning = ref(false)
 
@@ -228,9 +227,30 @@ const gridMeta = reactive({ rows: 0, cols: 0 })
 const status = reactive({ pathLength: 0, explored: 0, openCount: 0, closedCount: 0 })
 
 const drawModes = [
-  { label: 'Obstacle', value: 'obstacle' as DrawMode },
-  { label: 'Start', value: 'start' as DrawMode },
-  { label: 'Goal', value: 'goal' as DrawMode }
+  { label: 'Obstacle', value: 'obstacle' as DrawMode, swatch: '#5a5a5a' },
+  { label: 'Start', value: 'start' as DrawMode, swatch: '#00c850' },
+  { label: 'Goal', value: 'goal' as DrawMode, swatch: '#dc2d2d' }
+]
+
+const actionModes = [
+  { label: 'Draw', value: 'draw' as ActionMode },
+  { label: 'Erase', value: 'erase' as ActionMode }
+]
+
+const liveStats = computed(() => [
+  { label: 'Path length', value: status.pathLength },
+  { label: 'Explored', value: status.explored },
+  { label: 'Open set', value: status.openCount },
+  { label: 'Closed set', value: status.closedCount }
+])
+
+const legend = [
+  { label: 'Start', color: '#00c850' },
+  { label: 'Goal', color: '#dc2d2d' },
+  { label: 'Open set', color: '#ffff00' },
+  { label: 'Closed set', color: '#ff9696' },
+  { label: 'Final path', color: '#32a05a' },
+  { label: 'Obstacle', color: '#5a5a5a' }
 ]
 
 let p5ctx: p5 | null = null
@@ -582,7 +602,6 @@ const runSimulation = async () => {
 }
 
 onMounted(() => {
-  // eslint-disable-next-line no-new
   if (typeof window === 'undefined') return
   ;(async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

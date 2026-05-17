@@ -4,7 +4,131 @@
 - Nuxt 4 (Vue 3) — `nuxt.config.ts`, srcDir `app/`
 - Modules: `@nuxt/ui` (v4), `motion-v`, `@nuxt/image`
 - Styling: Tailwind v4 via `@nuxt/ui`, single CSS file `app/assets/css/main.css`
-- Pages: `app/pages/index.vue` (one-pager) and `app/pages/astar.vue` (A* visualizer using `p5`)
+- Pages: `app/pages/index.vue` (one-pagYou are auditing this personal portfolio site. Treat the repo root as the source of truth — read the actual files (HTML/JSX/Vue/Hugo templates, CSS, JS, config, build output if present) rather than assuming a typical structure. Start by mapping what this site actually is: framework, routing, where copy lives, where assets live, deployment target (look for wrangler.toml, vercel.json, netlify.toml, Dockerfiles, GH Actions, etc.).
+
+
+
+Then produce three audits. Be specific, cite file paths and line numbers, and skip generic advice that isn't grounded in something you actually read.
+
+
+
+═══════════════════════════════════════════
+
+1. PSYCHOLOGICAL / RETENTION AUDIT
+
+═══════════════════════════════════════════
+
+Evaluate the site as a persuasion artifact aimed at recruiters, collaborators, and curious technical readers. For each item below, quote the actual copy or describe the actual element, then give a verdict and a concrete rewrite or fix.
+
+
+
+- First 5 seconds: what does a visitor see above the fold? Is the value proposition (who I am, what I do, why it matters) legible without scrolling? Is there a hook or just a header?
+
+- Cognitive load: how many decisions does the homepage force? Hick's law violations, decision paralysis, unclear primary CTA.
+
+- Social proof & credibility signals: are accomplishments framed as outcomes (impact, numbers, named institutions) or as a list of nouns? Identify weakest entries.
+
+- Narrative arc: does the page tell a story or is it a CV dump? Is there a "why" thread connecting the work?
+
+- Specificity vs. vagueness: flag every instance of buzzword filler ("passionate", "driven", "tech enthusiast") and propose replacements grounded in concrete evidence from elsewhere on the site.
+
+- Reciprocity & curiosity gaps: is there anything that gives the visitor value (a useful post, a tool, an opinion) that earns continued attention? Or is the entire site a one-way pitch?
+
+- Friction to contact: count the clicks/scrolls from landing to a working contact method. Are contact links real (mailto, tel, verified socials) or placeholder?
+
+- Trust signals: is there anything that signals this is a real person with a track record (dates, links to artifacts, GitHub stars, deployed projects, photos) vs. unverifiable claims?
+
+- Visual hierarchy & scanability: do font sizes, weights, and spacing match information importance? Where does the eye go first vs. where should it go?
+
+- Mobile psychology: open the site mentally at 380px — does the hierarchy still work, or does everything collapse into an undifferentiated stack?
+
+- Exit triggers: identify the most likely points a visitor bounces and why.
+
+
+
+End this section with the top 5 highest-leverage changes ranked by impact, each with a one-paragraph rationale.
+
+
+
+═══════════════════════════════════════════
+
+2. SECURITY AUDIT
+
+═══════════════════════════════════════════
+
+This is a static-ish portfolio, so focus on realistic threats, not enterprise theater. Cover:
+
+
+
+- Secrets in repo: scan for API keys, tokens, .env files committed, hardcoded credentials, analytics/form-handler secrets that should be server-side.
+
+- Third-party script supply chain: list every external <script>, font, analytics, embed. For each, note: is SRI used? Is it pinned? Could it execute arbitrary JS? Is it actually needed?
+
+- CSP, headers, and transport: check deployment config (Cloudflare Workers, _headers file, vercel.json, nginx config, etc.) for Content-Security-Policy, Strict-Transport-Security, X-Content-Type-Options, Referrer-Policy, Permissions-Policy. Report what's set vs. what should be.
+
+- Contact form / endpoints: if there's a form, where does it submit? Is it rate-limited? Is there spam/abuse protection? Is the email address harvestable as plaintext (likely yes — note tradeoff)?
+
+- PII exposure: phone numbers, home address, personal email, real-time location, anything that should be gated or removed.
+
+- XSS surface: any place user-controlled or URL-param-driven content is rendered? innerHTML usage? dangerouslySetInnerHTML in JSX?
+
+- Dependency posture: run/inspect package.json or go.mod. Flag unmaintained, deprecated, or known-CVE packages. Note Node/runtime version pinning.
+
+- Open redirects, mixed content, insecure links: rel="noopener noreferrer" on target="_blank" links to external domains.
+
+- Auth / admin surfaces: is anything reachable that shouldn't be (drafts, /admin, source maps in production, .git folder exposed)?
+
+- Domain/email hygiene relevant to a portfolio: is the contact email on a custom domain? Are SPF/DKIM/DMARC set if the site sends mail? (Note as out-of-scope if you can't verify from the repo.)
+
+
+
+For each finding: severity (low/med/high), one-line description, file/location, concrete fix.
+
+
+
+═══════════════════════════════════════════
+
+3. PERFORMANCE AUDIT
+
+═══════════════════════════════════════════
+
+Static analysis from the repo — don't speculate about Lighthouse scores you didn't run, but do flag everything that would clearly hurt them.
+
+
+
+- Asset weight: list images >100KB, fonts, videos. Note formats (WebP/AVIF vs PNG/JPG), dimensions vs. rendered size, missing width/height attrs (CLS).
+
+- Font loading: how many font files? font-display: swap? Self-hosted vs. Google Fonts? Subsetting?
+
+- JS payload: bundle size if inspectable, unused frameworks (e.g. shipping React for a static page), client-side rendering where SSG/SSR would do.
+
+- CSS: unused selectors, framework-default ballast (full Tailwind without purge config, full Bootstrap), critical CSS strategy.
+
+- Render path: blocking resources in <head>, missing defer/async on scripts, render-blocking third parties (analytics, chat widgets, fonts).
+
+- Caching & CDN: what does the deployment config say about cache headers and immutable assets?
+
+- Layout shift sources: images without dimensions, web fonts without size-adjust, late-loading embeds.
+
+- LCP candidate: identify what the LCP element likely is and whether it's optimized (preloaded if appropriate, properly sized, not lazy-loaded if above the fold).
+
+- Accessibility-as-performance: alt text presence, semantic HTML, heading order — call these out even though they're a11y, because broken a11y also hurts SEO and trust.
+
+
+
+═══════════════════════════════════════════
+
+OUTPUT FORMAT
+
+═══════════════════════════════════════════
+
+- One markdown report, saved to ./audit-report.md in the repo.
+
+- Each finding: severity, location (file:line where possible), what's wrong, what to do.
+
+- End with a prioritized punch list: the 10 changes I should ship first, ordered by impact-to-effort ratio. Be opinionated.
+
+- If you're unsure about something or it depends on intent I haven't stated, ask me — don't pad with hedged generalities.er) and `app/pages/astar.vue` (A* visualizer using `p5`)
 - Deploy: Cloudflare Workers via Nitro `cloudflare_module` preset (`wrangler.jsonc`); deploy script in `deploy.sh`
 - Static assets in `public/` (favicon, signature PNG, two credential JPGs)
 - Only build output `_headers` file sets cache-control on `_nuxt/*` and `_fonts/*`; **no security headers anywhere**
@@ -42,7 +166,7 @@ One nit: the left rail has **two redundant resume entry points** — the RESUME 
 
 ### Social proof / credibility
 
-**Strong:** SAT 1500/1600, IELTS 8.5/9 — both specific, both with redacted score reports linked. `index.vue:662-677`.
+**Strong:** SAT 1550/1600, IELTS 8.5/9 — both specific, both with redacted score reports linked. `index.vue:662-677`.
 
 **Weak / weakest entries:**
 - "Duke University, Web Scraping with Python" — `index.vue:679` — Coursera 4-week course, not a Duke credential in any meaningful sense. The framing implies more than the credential is.
