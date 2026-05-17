@@ -5,6 +5,7 @@
 .nitro
 .cache
 dist
+.wrangler
 
 # Node dependencies
 node_modules
@@ -17,6 +18,8 @@ logs
 .DS_Store
 .fleet
 .idea
+.crossnote
+audit-report.md
 
 # Local env files
 .env
