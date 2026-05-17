@@ -660,7 +660,7 @@ const credentials: Credential[] = [
     href: ''
   },
   {
-    name: 'SAT: 1500/1600',
+    name: 'SAT: 1550/1600',
     organization: 'College Board',
     organizationLabel: 'Organization',
     issued: 'Issued: See credential',
