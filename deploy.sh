@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 sudo chown -R $(whoami) .
 read -p "Enter commit message: " commit_msg
 
