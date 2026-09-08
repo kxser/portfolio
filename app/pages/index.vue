@@ -231,7 +231,7 @@
             :transition="!isSafari ? { duration: 0.5, delay: 0.4 } : { duration: 0 }"
             :inViewOptions="!isSafari ? { once: true } : { once: true }"
           >
-            Currently, I'm a student at <strong class="font-semibold text-white">METU D.F. Private School Ankara</strong>. Most of my studies focus on improving my skills in <strong class="font-semibold text-white">computer science and software engineering</strong>.
+            Currently, I'm a <strong class="font-semibold text-white">Computer Science</strong> bachelor's student at <strong class="font-semibold text-white">Ca' Foscari University of Venice</strong>. Most of my studies focus on improving my skills in <strong class="font-semibold text-white">computer science and software engineering</strong>.
           </motion.p>
           <motion.p 
             class="mt-4 text-pretty text-base leading-relaxed text-slate-300"
@@ -240,7 +240,7 @@
             :transition="!isSafari ? { duration: 0.5, delay: 0.5 } : { duration: 0 }"
             :inViewOptions="!isSafari ? { once: true } : { once: true }"
           >
-            My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture. I frequently leverage my reputation as the school's primary technical troubleshooter to design and implement IT infrastructure for multiple student organizations.
+            My software development experience spans remarkably <strong class="font-semibold text-white">diverse environments</strong>, from the focused autonomy of working remotely at the top of the Alps to the collaborative and structured setting of a leading electronics design company. This contrast has equipped me with a <strong class="font-semibold text-white">versatile skill set</strong> and the ability to thrive in any work culture.
           </motion.p>
           <motion.div 
             class="mt-6"
@@ -599,32 +599,11 @@ const updateUtc3Time = () => {
 
 const experience = [
   {
-    company: 'The College Chronicle',
-    title: 'Co-Founder & Chief Technical Officer (CTO)',
-    period: 'Present',
-    summary:
-      'Co-Founder, CTO & Editor. Spearheaded breakaway newspaper branch. Built its entire digital infrastructure, website & directed editorial content.'
-  },
-  {
-    company: 'Metu College M.U.N.',
-    title: 'Director General & Head of I.T.',
-    period: '2022 — Present',
-    summary:
-      'Responsible for managing, developing, and deploying the I.T. infrastructure for a 300-person M.U.N. conference while continuing my role in general management.'
-  },
-  {
     company: 'METU College Entrepreneurship Club',
     title: 'Lead Software Engineer',
     period: '2022 — 2022',
     summary:
       "Developed a bespoke website for the club's entry into the national GencBizz competition."
-  },
-  {
-    company: 'RK Media',
-    title: 'Co-founder',
-    period: '2023-2024',
-    summary:
-      'Built responsive marketing sites, advertising prototypes, and web applications for various creators and communities.'
   },
     {
     company: 'MEGART Technology',
@@ -656,7 +635,7 @@ const credentials: Credential[] = [
     name: 'Private Anatolian High School Diploma',
     organization: 'METU D.F. Private Anatolian High School',
     organizationLabel: 'Institution',
-    issued: 'Expected: June 2026',
+    issued: 'Issued: June 2026',
     href: ''
   },
   {
@@ -721,39 +700,11 @@ const projects = [
     href: 'https://derinaritter.com/astar'
   },
   {
-    name: 'TEDxODTUGVO Youth Website',
-    year: '2025',
-    description:
-      'Commissioned to develop the official event website as a keynote speaker for TEDxODTUGVO Youth. Built a platform adhering to TEDx brand guidelines and standards.',
-    href: 'https://tedxodtugvo.org'
-  },
-  {
-    name: 'The College Chronicle',
-    year: '2025',
-    description:
-      'Co-founded and serve as Editor for this digital school journal. Solely responsible for building and maintaining the entire technical infrastructure and website.',
-    href: 'https://thecollegechronicle.org'
-  },
-  {
-    name: 'MCMUN Website',
-    year: '2025',
-    description:
-      'Sustainable, low-cost website for the METU College Model United Nations conference, built with Nuxt 4.',
-    href: 'https://metucollegemun.org'
-  },
-  {
     name: 'NuxtAuth',
     year: '2025',
     description:
       'A fully self-contained authentication framework to be used as a starting point for Nuxt 4 applications. It requires no backend services and is perfect for small applications.',
     href: 'https://github.com/derinaritter/nuxtauth'
-  },
-    {
-    name: 'Arrow Cursor Follow',
-    year: '2025',
-    description:
-      'Lightweight demonstration that renders an arrow array element that smoothly rotates and points toward (or chases) the  mouse / pointer position. Similar to a magnetic filing effect.',
-    href: 'https://github.com/derinaritter/arrow-cursor-follow'
   },
 ]
 
